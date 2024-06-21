@@ -1,20 +1,30 @@
 <script setup lang="ts">
 const formFields = reactive({
-   email: 'dave@hello.com',
-   password: 'password2',
+   email: 'kumar@hello.com',
+   password: 'password',
    remember: false,
 });
 
-
 const loginErrors = ref('');
+
+const { signIn, data } = useAuth();
+
+if (data.value) {
+   const apiToken = useCookie('api-token');
+   apiToken.value = data.value.user.token;
+
+   navigateTo('/');
+}
 
 /**
  * Handle login button
  */
 async function handleLogin() {
    try {
-
-      return navigateTo('/');
+      await signIn('credentials', {
+         username: formFields.email,
+         password: formFields.password,
+      });
    }
    catch (e) {
       loginErrors.value = 'Please check your email and password.';
@@ -25,7 +35,7 @@ async function handleLogin() {
 <template>
    <main class="flex w-full flex-col items-center">
       <section class="max-w-sm w-full bg-amber-50 flex p-5 rounded-2xl border border-amber-100">
-         <form action="" class="w-full flex flex-col gap-5">
+         <div class="w-full flex flex-col gap-5">
             <header>
                <h3 class="text-2xl font-bold text-amber-500">
                   Welcome back,
@@ -51,10 +61,14 @@ async function handleLogin() {
                <UButton label="Login" block @click="handleLogin()" />
             </footer>
 
+            <footer>
+               <UButton label="Github Login" block @click="signIn('github')" />
+            </footer>
+
             <div v-if="loginErrors" class="text-red-500 text-sm bg-red-100 p-2 rounded-xl">
                {{ loginErrors }}
             </div>
-         </form>
+         </div>
       </section>
    </main>
 </template>

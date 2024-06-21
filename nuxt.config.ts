@@ -2,7 +2,7 @@
 
 export default defineNuxtConfig({
    devtools: { enabled: true },
-   modules: ['@nuxt/ui', '@pinia/nuxt'],
+   modules: ['@nuxt/ui', '@pinia/nuxt', '@sidebase/nuxt-auth'],
 
    colorMode: {
       preference: 'light',
@@ -12,7 +12,17 @@ export default defineNuxtConfig({
       // eslint-disable-next-line node/prefer-global/process
       jwtSecret: process.env.NUXT_JWT_SECRET, // get it from .env file -> NUXT_SESSION_SECRET
       public: {
-         baseURL: '/',
+         baseURL: 'http://localhost:3333',
+      },
+   },
+
+   /*
+    * Auth
+    */
+
+   auth: {
+      provider: {
+         type: 'authjs',
       },
    },
 
