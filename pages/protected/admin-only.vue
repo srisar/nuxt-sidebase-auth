@@ -1,13 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
-   middleware: [],
+   middleware: ['admin-only'],
 });
-
-const { data } = useAuth();
-
-if (data.value?.user.role !== 'ADMINX') {
-   navigateTo('/');
-}
 </script>
 
 <template>
@@ -17,8 +11,6 @@ if (data.value?.user.role !== 'ADMINX') {
       </h1>
 
       <p>This page is only available for admin users.</p>
-
-      <pre>{{ data }}</pre>
    </main>
 </template>
 

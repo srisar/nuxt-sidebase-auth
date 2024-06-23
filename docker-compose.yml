@@ -1,0 +1,13 @@
+services:
+   nuxt-sidebase-example:
+      build:
+         context: .
+      image: nuxt-sidebase
+      container_name: nuxt-sidebase-example
+      restart: always
+      environment:
+         - AUTH_ORIGIN=http://localhost:3000
+      ports:
+         -  "3000:3000"
+      expose:
+         -  "3000"

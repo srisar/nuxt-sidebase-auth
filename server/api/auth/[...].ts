@@ -45,7 +45,7 @@ export default NuxtAuthHandler({
                   id: response.user.id,
                   email: response.user.email,
                   fullName: response.user.profile.fullName,
-                  role: response.user.role,
+                  role: 'CUSTOMER',
                   token: response.token.token,
                };
             }

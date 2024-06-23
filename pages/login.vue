@@ -1,20 +1,36 @@
 <script setup lang="ts">
+definePageMeta({
+   auth: {
+      unauthenticatedOnly: true,
+      navigateAuthenticatedTo: '/',
+   },
+});
+
+/* ---------------------------------------------------------------------------------------------- */
+
+const urlQuery = useRoute().query;
+const loginErrors = ref('');
+
+if (urlQuery.error && urlQuery.error === 'CredentialsSignin') {
+   loginErrors.value = 'Username or password is invalid.';
+}
+
+/* ---------------------------------------------------------------------------------------------- */
+
 const formFields = reactive({
    email: 'kumar@hello.com',
    password: 'password',
    remember: false,
 });
 
-const loginErrors = ref('');
-
 const { signIn, data } = useAuth();
-
-if (data.value) {
-   const apiToken = useCookie('api-token');
-   apiToken.value = data.value.user.token;
-
-   navigateTo('/');
-}
+//
+// if (data.value) {
+//    const apiToken = useCookie('api-token');
+//    apiToken.value = data.value.user.token;
+//
+//    navigateTo('/');
+// }
 
 /**
  * Handle login button

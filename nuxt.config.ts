@@ -24,6 +24,9 @@ export default defineNuxtConfig({
       provider: {
          type: 'authjs',
       },
+      globalAppMiddleware: true,
+      // eslint-disable-next-line node/prefer-global/process
+      baseURL: process.env.AUTH_ORIGIN,
    },
 
 });

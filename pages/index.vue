@@ -1,7 +1,38 @@
 <script setup lang="ts">
+import { useAuthData } from '~/composables/useAppAuth';
+
 /* ---------------------------------------------------------------------------------------------- */
 
-const { status, data } = useAuth();
+definePageMeta({
+   // auth: false,
+});
+
+/* ---------------------------------------------------------------------------------------------- */
+
+const { apiToken } = useAuthData();
+
+// const { status, data } = useAuth();
+//
+// if (data.value) {
+//    const apiToken = useCookie('api-token');
+//    apiToken.value = data.value.user.token;
+// }
+
+async function handleFetchUser() {
+   try {
+      const response = await $fetch('/user/1', {
+         baseURL: useRuntimeConfig().public.baseURL,
+         headers: {
+            Authorization: `Bearer ${apiToken.value}`,
+         },
+      });
+
+      console.log(response);
+   }
+   catch (e) {
+      console.log(e);
+   }
+}
 </script>
 
 <template>
@@ -24,8 +55,12 @@ const { status, data } = useAuth();
       </div>
 
       <div class="flex flex-col w-full items-center justify-center mb-5">
-         <pre>status: {{ status }}</pre>
-         <pre>{{ data }}</pre>
+         <pre>apiToken: {{ apiToken }}</pre>
+         <!--         <pre>{{ data }}</pre> -->
+
+         <UButton @click="handleFetchUser()">
+            Fetch User Data
+         </UButton>
       </div>
 
       <div class="max-w-xl bg-amber-50 p-5 mx-auto">

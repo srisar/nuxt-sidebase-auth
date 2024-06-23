@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
+import { useAuthData } from '~/composables/useAppAuth';
 
+const { user, isAuthenticated } = useAuthData();
+const { signOut } = useAuth();
 </script>
 
 <template>
@@ -10,7 +12,7 @@ import { storeToRefs } from 'pinia';
             <!-- left side -->
             <div class="flex-1 flex gap-5">
                <NuxtLink class="link pr-5 border-r-2 border-amber-300" to="/">
-                  Home
+                  🏠 Home
                </NuxtLink>
                <NuxtLink class="link" to="/protected/admin-only">
                   Admin only
@@ -22,10 +24,14 @@ import { storeToRefs } from 'pinia';
 
             <!-- right side -->
             <div>
-
-               <div >
+               <div v-if="isAuthenticated">
+                  <UButton @click="signOut()">
+                     Logout, {{ user?.fullName }}
+                  </UButton>
+               </div>
+               <div v-else>
                   <UButton class="uppercase" to="/login">
-                     Login
+                     Login 🚀
                   </UButton>
                </div>
             </div>
